@@ -15,12 +15,16 @@ const RegisterLayout = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h2>Register Form</h2>
+      <h1 className="text-3xl font-bold underline">Register Form</h1>
 
       <div>
         <label htmlFor="first_name">First Name</label>
         <input type="text" id="first_name"
-          {...register("first_name")} />
+          {...register("first_name",{
+            required: 'Vui lòng nhập '
+          })} />
+          {/* {errors?.first_name && ()} */}
+        <p className="text-red-500">{errors?.first_name?.message as string}</p>
       </div>
 
       <div>
