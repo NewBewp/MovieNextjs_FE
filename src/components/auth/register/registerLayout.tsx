@@ -25,7 +25,7 @@ const RegisterLayout = () => {
       <h1 className="text-3xl font-bold underline">Register Form</h1>
 
       <div>
-        <label htmlFor="first_name">First Name</label>
+        <label htmlFor="first_name">First Name : </label>
         <input
           type="text"
           id="first_name"
@@ -35,7 +35,7 @@ const RegisterLayout = () => {
       </div>
 
       <div>
-        <label htmlFor="last_name">Last Name</label>
+        <label htmlFor="last_name">Last Name : </label>
         <input
           type="text"
           id="last_name"
@@ -45,64 +45,57 @@ const RegisterLayout = () => {
       </div>
 
       <div>
-        <label htmlFor="phone_number">Phone Number</label>
+        <label htmlFor="phone_number">Phone Number : </label>
         <input
           type="text"
           id="phone_number"
-          {...register("phone_number",
-            // {
-            //   required: 'Vui lòng nhập số điện thoại',
-            //   pattern: {
-            //     value: /^[0-9]+$/,
-            //     message: 'Chỉ nhập số'
-            //   }
-            // }
-          )}
+          {...register("phone_number")}
         />
         {errors.phone_number && <p className="text-red-500">{errors.phone_number.message}</p>}
       </div>
 
       <div>
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">Email : </label>
         <input
           type="email"
           id="email"
-          {...register("email",
-            // {
-            //   required: 'Vui lòng nhập email',
-            //   pattern: {
-            //     value: /^\S+@\S+$/,
-            //     message: 'Định dạng email không hợp lệ'
-            //   }
-            // }
-          )}
+          {...register("email")}
         />
         {errors.email && <p className="text-red-500">{errors.email.message}</p>}
       </div>
 
       <div>
-        <label htmlFor="address">Address</label>
+        <label htmlFor="address">Address : </label>
         <input
           type="text"
           id="address"
-          {...register("address",
-            // { required: 'Vui lòng nhập địa chỉ' }
-          )}
+          {...register("address")}
         />
         {errors.address && <p className="text-red-500">{errors.address.message}</p>}
       </div>
 
       <div>
-        <label htmlFor="gender">Gender</label>
-        <select id="gender" {...register("gender",
-          // { required: 'Vui lòng chọn giới tính' }
-        )}>
+        <label htmlFor="gender">Gender : </label>
+        <select id="gender" {...register("gender")}>
           <option value="">--Chọn giới tính--</option>
           <option value="male">Nam</option>
           <option value="female">Nữ</option>
         </select>
         {errors.gender && <p className="text-red-500">{errors.gender.message}</p>}
       </div>
+
+      <div>
+        <label htmlFor="password">Password : </label>
+        <input
+          type="password"
+          id="password"
+          {...register("password")}
+        />
+        {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+      </div>
+
+
+
 
       <button type="submit">Register</button>
     </form>
