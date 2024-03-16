@@ -4,20 +4,38 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RegisterSchema, RegisterSchemaType } from "@/src/schema/RegisterSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 
 const RegisterLayout = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors } } = useForm<RegisterSchemaType>({
-      mode: 'onChange',
-      resolver: zodResolver(RegisterSchema)
-    });
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterSchemaType>({
+    mode: 'onChange',
+    resolver: zodResolver(RegisterSchema)
+  });
+  
 
-  const onSubmit: SubmitHandler<RegisterSchemaType> = (RegisterValue) => {
+  const onSubmit: SubmitHandler<RegisterSchemaType> = async (RegisterValue) => {
     console.log(RegisterValue);
     // Add logic to handle form submission here
     // Ví dụ: Gửi dữ liệu tới một API server
+
+    const formatRegisterValue = {
+      ...RegisterValue,
+      daybirth: new Date(RegisterValue.daybirth).toISOString(),
+      // role: new Role(RegisterValue.role).
+    }
+
+    console.log(formatRegisterValue);
+
+    try {
+      await axios({
+        method: 'POST',
+        url: "http://localhost:3001/user/createUser",
+        data: formatRegisterValue
+      })
+    } catch (error) {
+      console.log(error)
+    }
+
   };
 
   return (
@@ -85,6 +103,16 @@ const RegisterLayout = () => {
       </div>
 
       <div>
+        <label htmlFor="daybirth">Daybirth</label>
+        <input
+          type="date"
+          id="daybirth"
+          {...register("daybirth")}
+        />
+        {errors.daybirth && <p className="text-red-500">{errors.daybirth?.message}</p>}
+      </div>
+
+      <div>
         <label htmlFor="password">Password : </label>
         <input
           type="password"
@@ -92,6 +120,16 @@ const RegisterLayout = () => {
           {...register("password")}
         />
         {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="role">Role : </label>
+        <input
+          type="number"
+          id="role"
+          {...register("role")}
+        />
+        {errors.role && <p className="text-red-500">{errors?.role?.message}</p>}
       </div>
 
 
