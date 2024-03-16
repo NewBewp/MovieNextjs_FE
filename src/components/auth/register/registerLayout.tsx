@@ -4,14 +4,17 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RegisterSchema, RegisterSchemaType } from "@/src/schema/RegisterSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import axios from "axios";
+//Toastify
+import {toast}   from 'react-toastify';
 
 const RegisterLayout = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterSchemaType>({
     mode: 'onChange',
     resolver: zodResolver(RegisterSchema)
   });
-  
+
 
   const onSubmit: SubmitHandler<RegisterSchemaType> = async (RegisterValue) => {
     console.log(RegisterValue);
@@ -21,7 +24,7 @@ const RegisterLayout = () => {
     const formatRegisterValue = {
       ...RegisterValue,
       daybirth: new Date(RegisterValue.daybirth).toISOString(),
-      // role: new Role(RegisterValue.role).
+      role_id: parseInt(RegisterValue.role_id)
     }
 
     console.log(formatRegisterValue);
@@ -32,8 +35,14 @@ const RegisterLayout = () => {
         url: "http://localhost:3001/user/createUser",
         data: formatRegisterValue
       })
+      toast.success('Register success')
+      
     } catch (error) {
-      console.log(error)
+
+      let errorMessage = "An error occurred";
+      errorMessage = error.message + error.code
+      console.log(errorMessage)
+      toast.error(errorMessage)
     }
 
   };
@@ -123,17 +132,14 @@ const RegisterLayout = () => {
       </div>
 
       <div>
-        <label htmlFor="role">Role : </label>
-        <input
-          type="number"
-          id="role"
-          {...register("role")}
-        />
-        {errors.role && <p className="text-red-500">{errors?.role?.message}</p>}
+        <label htmlFor="role_id">RoleId : </label>
+        <select id="role_id" {...register("role_id")}>
+          <option value="">--Chọn vai trò--</option>
+          <option value="1">Admin</option>
+          <option value="2">User</option>
+        </select>
+        {errors.role_id && <p className="text-red-500">{errors?.role_id?.message}</p>}
       </div>
-
-
-
 
       <button type="submit">Register</button>
     </form>
