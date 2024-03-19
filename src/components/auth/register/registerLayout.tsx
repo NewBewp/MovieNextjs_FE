@@ -35,14 +35,9 @@ const RegisterLayout = () => {
         url: "http://localhost:3001/user/createUser",
         data: formatRegisterValue
       })
-      toast.success('Register success')
-      
-    } catch (error) {
-
-      let errorMessage = "An error occurred";
-      errorMessage = error.message + error.code
-      console.log(errorMessage)
-      toast.error(errorMessage)
+      toast.success('Register success')      
+    } catch (error) {  
+      toast.error( error.name)
     }
 
   };
