@@ -5,5 +5,11 @@ export const userServices = {
         method: 'POST',
         url: "http://localhost:3001/user/createUser",
         data: formatRegisterValue
+    }),
+
+    login: (loginValue:any) => axios({
+        method: 'POST',
+        url: "http://localhost:3001/user/loginUser",
+        data: loginValue
     })
 }  
