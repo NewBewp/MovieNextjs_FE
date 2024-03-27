@@ -1,7 +1,8 @@
+import { LoginLayout } from '@/src/components/auth/login/loginLayout'
 import React from 'react'
 
-export default function login ()  {
+export default function Login ()  {
   return (
-    <div>login</div>
+    <LoginLayout/>
   )
 }

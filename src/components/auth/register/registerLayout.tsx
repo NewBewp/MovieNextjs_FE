@@ -4,48 +4,40 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RegisterSchema, RegisterSchemaType } from "@/src/schema/RegisterSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from 'react-toastify';
+import { userServices } from "@/src/services/userServices";
+import { PATH } from "@/src/constant/config";
+import { useRouter } from "next/navigation";
 
-import axios from "axios";
-//Toastify
-import {toast}   from 'react-toastify';
-
-const RegisterLayout = () => {
+export const RegisterLayout = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterSchemaType>({
     mode: 'onChange',
     resolver: zodResolver(RegisterSchema)
   });
 
+  const router = useRouter()
 
-  const onSubmit: SubmitHandler<RegisterSchemaType> = async (RegisterValue) => {
-    console.log(RegisterValue);
+  const onSubmit: SubmitHandler<RegisterSchemaType> = async (registerValue) => {
+    console.log(registerValue);
     // Add logic to handle form submission here
-    // Ví dụ: Gửi dữ liệu tới một API server
-
     const formatRegisterValue = {
-      ...RegisterValue,
-      daybirth: new Date(RegisterValue.daybirth).toISOString(),
-      role_id: parseInt(RegisterValue.role_id)
+      ...registerValue,
+      daybirth: new Date(registerValue.daybirth).toISOString(),
+      role_id: parseInt(registerValue.role_id)
     }
-
-    console.log(formatRegisterValue);
 
     try {
-      await axios({
-        method: 'POST',
-        url: "http://localhost:3001/user/createUser",
-        data: formatRegisterValue
-      })
-      toast.success('Register success')      
-    } catch (error) {  
-      toast.error( error.name)
+      await userServices.register(formatRegisterValue)
+      toast.success('Register success');
+      router.push(PATH.login)
+    } catch (error: any) {
+      toast.error(error.response.data.message)
     }
-
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h1 className="text-3xl font-bold underline">Register Form</h1>
-
       <div>
         <label htmlFor="first_name">First Name : </label>
         <input
@@ -125,17 +117,6 @@ const RegisterLayout = () => {
         />
         {errors.password && <p className="text-red-500">{errors.password.message}</p>}
       </div>
-
-      <div>
-        <label htmlFor="role_id">RoleId : </label>
-        <select id="role_id" {...register("role_id")}>
-          <option value="">--Chọn vai trò--</option>
-          <option value="1">Admin</option>
-          <option value="2">User</option>
-        </select>
-        {errors.role_id && <p className="text-red-500">{errors?.role_id?.message}</p>}
-      </div>
-
       <button type="submit">Register</button>
     </form>
   );
