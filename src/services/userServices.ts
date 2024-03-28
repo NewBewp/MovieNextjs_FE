@@ -9,7 +9,7 @@ export const userServices = {
 
     login: (loginValue:any) => axios({
         method: 'POST',
-        url: "http://localhost:3001/user/loginUser",
+        url: "http://localhost:3001/user/login", // 
         data: loginValue
     })
 }  
