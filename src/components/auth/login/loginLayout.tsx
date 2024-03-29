@@ -1,11 +1,13 @@
 "use client";
 
-import { LoginSchema, LoginSchemaType } from "@/src/schema/LoginSchema";
-import { userServices } from "@/src/services/userServices";
-import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { LoginSchema, LoginSchemaType } from "@/src/schema/LoginSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
+import { userServices } from "@/src/services/userServices";
+import { useRouter } from "next/navigation";
+import { PATH } from "@/src/constant/config";
 
 export const LoginLayout = () => {
     const { register: login, handleSubmit, formState: { errors } } = useForm<LoginSchemaType>({
@@ -13,11 +15,13 @@ export const LoginLayout = () => {
         resolver: zodResolver(LoginSchema)
     })
 
+    const router = useRouter()
     const onSubmit: SubmitHandler<LoginSchemaType> = async (loginValue) => {
-        console.log(loginValue);
+        // console.log(loginValue);
         try {
             await userServices.login(loginValue)
             toast.success('Login success')
+            router.push(PATH.home)
         } catch (error: any) {
             toast.error(error.response.data.message)
         }

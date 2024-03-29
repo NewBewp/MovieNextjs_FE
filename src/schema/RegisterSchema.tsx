@@ -9,7 +9,7 @@ export const RegisterSchema = z.object({
     gender: z.string().min(1, 'Vui lòng chọn').max(20, 'Nhập tối đa 20 ký tự'),
     daybirth: z.string().min(1, 'Chọn ngày sinh'),
     password: z.string().min(1, 'Nhập mật khẩu'),
-    role_id: z.string().default("2")
+    role_id: z.number().default(2) //admin:1 || user:2
 })
 
 export type RegisterSchemaType = z.infer<typeof RegisterSchema>

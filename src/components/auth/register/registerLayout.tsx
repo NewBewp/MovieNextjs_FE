@@ -20,10 +20,10 @@ export const RegisterLayout = () => {
   const onSubmit: SubmitHandler<RegisterSchemaType> = async (registerValue) => {
     console.log(registerValue);
     // Add logic to handle form submission here
-    const formatRegisterValue = {
+    const formatRegisterValue: RegisterSchemaType = {
       ...registerValue,
       daybirth: new Date(registerValue.daybirth).toISOString(),
-      role_id: parseInt(registerValue.role_id)
+      // role_id: parseInt(registerValue.role_id)
     }
 
     try {
