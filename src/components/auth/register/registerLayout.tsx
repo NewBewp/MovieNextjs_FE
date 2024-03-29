@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import { userServices } from "@/src/services/userServices";
 import { PATH } from "@/src/constant/config";
 import { useRouter } from "next/navigation";
+import { Input } from "@/src/ui/Input";
+import { Select } from "@/src/ui/Select";
 
 export const RegisterLayout = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterSchemaType>({
@@ -38,85 +40,14 @@ export const RegisterLayout = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h1 className="text-3xl font-bold underline">Register Form</h1>
-      <div>
-        <label htmlFor="first_name">First Name : </label>
-        <input
-          type="text"
-          id="first_name"
-          {...register('first_name')}
-        />
-        {errors.first_name && <p className="text-red-500">{errors.first_name.message}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="last_name">Last Name : </label>
-        <input
-          type="text"
-          id="last_name"
-          {...register("last_name")}
-        />
-        {errors.last_name && <p className="text-red-500">{errors.last_name.message}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="phone_number">Phone Number : </label>
-        <input
-          type="text"
-          id="phone_number"
-          {...register("phone_number")}
-        />
-        {errors.phone_number && <p className="text-red-500">{errors.phone_number.message}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="email">Email : </label>
-        <input
-          type="email"
-          id="email"
-          {...register("email")}
-        />
-        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="address">Address : </label>
-        <input
-          type="text"
-          id="address"
-          {...register("address")}
-        />
-        {errors.address && <p className="text-red-500">{errors.address.message}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="gender">Gender : </label>
-        <select id="gender" {...register("gender")}>
-          <option value="">--Chọn giới tính--</option>
-          <option value="male">Nam</option>
-          <option value="female">Nữ</option>
-        </select>
-        {errors.gender && <p className="text-red-500">{errors.gender.message}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="daybirth">Daybirth</label>
-        <input
-          type="date"
-          id="daybirth"
-          {...register("daybirth")}
-        />
-        {errors.daybirth && <p className="text-red-500">{errors.daybirth?.message}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="password">Password : </label>
-        <input
-          type="password"
-          id="password"
-          {...register("password")}
-        />
-        {errors.password && <p className="text-red-500">{errors.password.message}</p>}
-      </div>
+      <Input label="First Name" id="first_name" type="text" register={register} error={errors.first_name?.message}/>
+      <Input label="Last Name" id="last_name" type="text" register={register} error={errors.last_name?.message}/>
+      <Input label="Phone Number" id="phone_number" type="text" register={register} error={errors.phone_number?.message}/>
+      <Input label="Email" id="email" type="email" register={register} error={errors.email?.message}/>
+      <Input label="Address" id="address" type="text" register={register} error={errors.address?.message}/>
+      <Select/>
+      <Input label="Daybirth" id="daybirth" type="date" register={register} error={errors.daybirth?.message}/>
+      <Input label="Password" id="password" type="password" register={register} error={errors.password?.message}/>
       <button type="submit">Register</button>
     </form>
   );

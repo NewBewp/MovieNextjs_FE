@@ -8,9 +8,10 @@ import { toast } from "react-toastify";
 import { userServices } from "@/src/services/userServices";
 import { useRouter } from "next/navigation";
 import { PATH } from "@/src/constant/config";
+import { Input } from "@/src/ui/Input";
 
 export const LoginLayout = () => {
-    const { register: login, handleSubmit, formState: { errors } } = useForm<LoginSchemaType>({
+    const { register : login, handleSubmit, formState: { errors } } = useForm<LoginSchemaType>({
         mode: 'onChange',
         resolver: zodResolver(LoginSchema)
     })
@@ -30,26 +31,8 @@ export const LoginLayout = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} >
             <h1 className="text-3xl font-bold underline">Login Form</h1>
-            <div>
-                <label htmlFor="email">Email : </label>
-                <input
-                    type="email"
-                    id="email"
-                    {...login('email')}
-                />
-                {errors.email && <p className="text-red-500">{errors.email.message}</p>}
-
-            </div>
-
-            <div>
-                <label htmlFor="password">Password : </label>
-                <input
-                    type="password"
-                    id="password"
-                    {...login('password')}
-                />
-                {errors.password && <p className="text-red-500">{errors.password.message}</p>}
-            </div>
+            <Input label= 'Email' id = 'email' type = 'email' register={login} error={errors.email?.message}/>
+            <Input label="Password" id="password" type="password" register={login} error={errors.password?.message}/>
             <button type="submit">Login</button>
         </form>
     )
